@@ -1,17 +1,53 @@
-import { Button } from "@/components/ui/button"
+import { useState, type FormEvent } from "react"
+import { Link, useNavigate } from "react-router"
+
 import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import placeholder from "@/assets/placeholder.svg"
 import { CustomLogo } from "@/components/custom/CustomLogo"
-import { Link } from "react-router"
+import { ModeToggle } from "@/components/mode-toggle"
+
+import placeholder from "@/assets/placeholder.svg"
+import { useAuthStore } from "@/auth/store/auth.store"
+import { toast } from "sonner"
 
 export const LoginPage = () => {
+
+  const navigate = useNavigate();
+  const { login } = useAuthStore();
+
+  const [isLogin, setIsLogin] = useState(false);
+
+  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget as HTMLFormElement);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    setIsLogin(true);
+    const isLoggedIn = await login(email, password);
+    if (isLoggedIn) {
+      navigate("/");
+      return;
+    }
+
+    toast.error("Error al iniciar sesión", {
+      description: "Por favor, verifica tus credenciales e intenta nuevamente.",
+    });
+    setIsLogin(false);
+  }
+
+
   return (
     <div className="flex flex-col gap-6">
+      <div className="">
+        <ModeToggle />
+      </div>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
+          <form className="p-6 md:p-8" onSubmit={handleLogin}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <CustomLogo />
@@ -23,6 +59,7 @@ export const LoginPage = () => {
                 <Label htmlFor="email">Correo electrónico</Label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="m@ejemplo.com"
                   required
@@ -38,9 +75,15 @@ export const LoginPage = () => {
                     ¿Olvidaste tu contraseña?
                   </a>
                 </div>
-                <Input id="password" type="password" required placeholder="Tu contraseña" />
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  required
+                  placeholder="Tu contraseña"
+                />
               </div>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" disabled={isLogin}>
                 Iniciar sesión
               </Button>
               <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">

@@ -1,16 +1,8 @@
 import * as React from "react"
 import {
-  IconChartBar,
-  IconDashboard,
-  IconDatabase,
-  IconFileWord,
-  IconFolder,
   IconHelp,
-  IconListDetails,
-  IconReport,
   IconSearch,
   IconSettings,
-  IconUsers,
 } from "@tabler/icons-react"
 
 import {
@@ -25,39 +17,6 @@ import { NavUser } from "./NavUser"
 import { AdminSidebarHeader } from "./AdminSidebarHeader"
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "https://github.com/shadcn.png",
-  },
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/admin",
-      icon: IconDashboard,
-    },
-    {
-      title: "Productos",
-      url: "/admin/products",
-      icon: IconListDetails,
-    },
-    {
-      title: "Usuarios",
-      url: "/admin/users",
-      icon: IconChartBar,
-    },
-    {
-      title: "Ordenes",
-      url: "#",
-      icon: IconFolder,
-    },
-    {
-      title: "Reportes",
-      url: "#",
-      icon: IconUsers,
-    },
-  ],
-
   navSecondary: [
     {
       title: "Settings",
@@ -74,24 +33,7 @@ const data = {
       url: "#",
       icon: IconSearch,
     },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileWord,
-    },
-  ],
+  ]
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -103,7 +45,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
 
       <SidebarContent>
-
+        
         <NavMain />
 
         <NavSecondary items={data.navSecondary} className="mt-auto" />
@@ -111,7 +53,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
 
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
 
     </Sidebar>
