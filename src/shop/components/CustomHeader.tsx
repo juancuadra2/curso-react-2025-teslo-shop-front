@@ -48,7 +48,7 @@ const CustomHeader = () => {
                     <Link to="/gender/women" className={cn("text-sm font-medium transition-colors hover:text-primary", gender === 'women' ? 'underline' : '')}>
                         Mujeres
                     </Link>
-                    <Link to="/gender/kids" className={cn("text-sm font-medium transition-colors hover:text-primary", gender === 'kids' ? 'underline' : '')}>
+                    <Link to="/gender/kid" className={cn("text-sm font-medium transition-colors hover:text-primary", gender === 'kids' ? 'underline' : '')}>
                         Niños
                     </Link>
                 </nav>
