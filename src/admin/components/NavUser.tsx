@@ -1,7 +1,6 @@
 import {
   IconCreditCard,
   IconDotsVertical,
-  IconLogout,
   IconNotification,
   IconUserCircle,
 } from "@tabler/icons-react"
@@ -27,18 +26,12 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { useAuthStore } from "@/auth/store/auth.store"
-import { useNavigate } from "react-router"
+import { CustomLogout } from "@/components/custom/CustomLogout"
 
 export function NavUser() {
 
-  const navigate = useNavigate(); 
   const { isMobile } = useSidebar();
-  const { user, logout } = useAuthStore();
-
-  const handleLogout = () => {
-    logout();
-    navigate("/auth/login");
-  }
+  const { user } = useAuthStore();
 
   return (
     <SidebarMenu>
@@ -98,9 +91,8 @@ export function NavUser() {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout}>
-              <IconLogout />
-              Cerrar sesión
+            <DropdownMenuItem >
+              <CustomLogout className="w-full justify-start"/>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -2,16 +2,16 @@ import { useRef } from "react";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router";
+import { Link, useParams, useSearchParams } from "react-router";
 import { cn } from "@/lib/utils";
 import { CustomLogo } from "@/components/custom/CustomLogo";
 import { ModeToggle } from "@/components/mode-toggle";
 import { useAuthStore } from "@/auth/store/auth.store";
+import { CustomLogout } from "@/components/custom/CustomLogout";
 
 const CustomHeader = () => {
 
-    const { user, logout } = useAuthStore();
-    const navigate = useNavigate();
+    const { authStatus, isAdmin } = useAuthStore();
 
     // useSearchParams se usa para obtener los query parameters de la URL que son opcionales
     const [searchParams, setSearchParams] = useSearchParams();
@@ -32,11 +32,6 @@ const CustomHeader = () => {
             newSearchParams.set("query", queryValue);
         }
         setSearchParams(newSearchParams);
-    }
-
-    const handleLogout = () => {
-        logout();
-        navigate("/auth/login");
     }
 
     return <header className="sticky top-0 z-50 w-full border-b backdrop-blur">
@@ -80,23 +75,23 @@ const CustomHeader = () => {
                         <Search className="h-5 w-5" />
                     </Button>
 
-                    {user ? (
-                        <Button variant="default" size="sm" className="ml-2" onClick={handleLogout}>
-                            Cerrar sesión
-                        </Button>
-                    ) : (
+                    {authStatus === 'unauthenticated' ? (
                         <Link to="/auth/login">
                             <Button variant="default" size="sm" className="ml-2">
                                 Iniciar sesión
                             </Button>
                         </Link>
+                    ) : (
+                        <CustomLogout />
                     )}
 
-                    <Link to="/admin">
-                        <Button variant="destructive" size="sm" className="ml-2">
-                            Admin
-                        </Button>
-                    </Link>
+                    {isAdmin() && (
+                        <Link to="/admin">
+                            <Button variant="destructive" size="sm" className="ml-2">
+                                Admin
+                            </Button>
+                        </Link>
+                    )}
 
                     <ModeToggle />
                 </div>
